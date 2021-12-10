@@ -157,6 +157,7 @@ The second part comes into initializing the same into our lang of choice when re
 
  - Integer is denoted by %d in C
  - Character is denoted by %c in C
+ - Float is denoted by %f in C
 So in the tuple collector, we shall initialize these identifiers with that of respective datatypes and while taking input using just write insert respective identifier and reconfigure the string in the same order as :
 
 ```
@@ -290,18 +291,19 @@ In general, the syntax of common loops in modern-day programming languages are
 ```
 Pseudocode :
 
-    FOR(DECLARATION; CONDITION; ITERATION)                  WHILE(CONDITION)
-        Execute Statement                                       Execute Statement
-
+    FOR(DECLARATION; CONDITION; ITERATION)                  WHILE(CONDITION)                     DO
+        Execute Statement                                       Execute Statement                  Execute Statement
+                                                                ITERATION                          ITERATION
+                                                                                                 WHILE(CONDITION);
 ```
 <h3>Syntax</h3>
 In our CReact Esolang to make things more intuitive and much simpler to understand we follow the following syntax :
 
 ```
-FOR CLAUSE :                                                WHILE CLAUSE:
-                <# f (declaration,condition,iteration)              <# w(condition)
-                    Statement                                           Statement
-                #>                                                  #>
+FOR CLAUSE :                                                WHILE CLAUSE:                               DO WHILE CLAUSE:
+                <# f (declaration,condition,iteration)              <# w(condition)                            <# dw(condition)
+                    Statement                                           Statement                                  Statement
+                #>                                                  #>                                         #>
 ```
 Loops have a characteristic tag of '#' and the two loops are differentiated concerning the letter that shows at the start of the loop syntax, which is 'f' referring to for loop while 'w' for while loop, the traspiling program looks specifically for the '#' symbol to execute a function to parse loops. The function first strips off spaces from the statements and first determines which category of the loop the statements belong to (i.e. for or while). The statements are then compiled into the compiling programming language syntax for example:
 
@@ -461,3 +463,30 @@ Assigning Operations :
 Now to parse it correctly we can look for the position of '=', divide the strings into 2 halves then on each half tokenize the parts like a variable name, value and place it accordingly.
 
 So that's how we can work with dynamic arrays in CReact.
+
+<h2>Strings</h2>
+We can consider string to be a vector of characters. Here, we have considered both- 
+- Initialization ~ When a variable is defined, you can also provide an initial value for the variable at the same time.
+- Declaration of the variable & thereafter taking the user input.
+
+In the first case, we can assign exactly those amount of character blocks to the variable as is the number of characters in the string.
+```
+char *str = malloc(size of string/number of characters in the string);
+```
+In the second case, we need to dynamically increase the memory allocated to the string as the user. We initially assign a memory block of buffersize to the string. We read input character by character till we encounter the character '\n' or the new-line character. If the number of characters exceed the assigned memory, we reallocate more space and the process continues. The following code block helps implement the same.
+```
+char *str = malloc(BuffSize);
+int ch;
+int size = BuffSize;
+int i = 0;
+while ((ch = fgetc(stdin)) != '\n')
+{
+    str[i++] = ch;
+    if (i == size + BuffSize)
+    {
+        size += BuffSize;
+        str = realloc(str, size);
+    }
+}
+```
+__Syntax for Declaration__ `<st str />` and __Accessing characters from the string__ `str[0]` 
